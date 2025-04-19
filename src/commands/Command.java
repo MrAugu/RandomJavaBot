@@ -1,11 +1,15 @@
 package commands;
 
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import org.jetbrains.annotations.NotNull;
+
+import java.sql.Connection;
 
 public abstract class Command {
-    String name;
-    String description;
+    public String name;
+    public String description;
 
     public Command (
             String commandName,
@@ -16,4 +20,5 @@ public abstract class Command {
     }
 
     public abstract SlashCommandData buildOptions ();
+    public abstract void runSlashInteraction (@NotNull SlashCommandInteractionEvent event, Connection databaseConnection);
 }
