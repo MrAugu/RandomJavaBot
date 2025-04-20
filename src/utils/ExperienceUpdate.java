@@ -28,7 +28,7 @@ public class ExperienceUpdate {
 
             statement.execute();
 
-            if (Settings.isDebugEnabled) System.out.println("[ExperienceUpdate]: Gave event experience. userid=" + user.getId() + "; username=" + user.getGlobalName() + "; guildid=" + guild.getId() + "; amount=" + experienceGain);
+            if (Settings.isDebugEnabled) System.out.println("[ExperienceUpdate | Debug]: Gave event experience. userid=" + user.getId() + "; username=" + user.getName() + "; guildid=" + guild.getId() + "; amount=" + experienceGain);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -51,10 +51,9 @@ public class ExperienceUpdate {
             statement.setInt(6, experienceGain);
 
             statement.execute();
+            if (Settings.isDebugEnabled) System.out.println("[ExperienceUpdate | Debug]: Gave message experience. userid=" + user.getId() + "; username=" + user.getName() + "; guildid=" + guild.getId() + "; amount=" + experienceGain);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        System.out.println("Giving event experience.");
     }
 }

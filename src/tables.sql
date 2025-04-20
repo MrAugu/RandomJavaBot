@@ -5,6 +5,8 @@ CREATE TABLE users (
     first_seen timestamp,
     balance decimal(11, 3),
     experience int,
+    experience_level int,
+    last_acknowledged_level int,
     PRIMARY KEY (user_id)
 );
 

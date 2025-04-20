@@ -1,3 +1,4 @@
+import configuration.Settings;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
@@ -11,9 +12,7 @@ import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.HashMap;
 
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -21,7 +20,6 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import commands.HelpCommand;
 import commands.Command;
 
-import configuration.Luck;
 import utils.ExperienceUpdate;
 
 public class DiscordBot extends ListenerAdapter {
@@ -33,15 +31,15 @@ public class DiscordBot extends ListenerAdapter {
     static {
         dataSource = new BasicDataSource();
 
-        dataSource.setUrl(System.getenv("DATABASE_URL"));
-        dataSource.setUsername(System.getenv("DATABASE_USERNAME"));
-        dataSource.setPassword(System.getenv("DATABASE_PASSWORD"));
+        dataSource.setUrl(Settings.databaseUrl);
+        dataSource.setUsername(Settings.databaseUsername);
+        dataSource.setPassword(Settings.databasePassword);
 
-        dataSource.setMinIdle(5);
-        dataSource.setMaxIdle(10);
-        dataSource.setMaxTotal(25);
+        dataSource.setMinIdle(Settings.minimumIdleConnections);
+        dataSource.setMaxIdle(Settings.maximumIdleConnections);
+        dataSource.setMaxTotal(Settings.maximumTotalConnections);
 
-        System.out.println("[Database]: Database pool initialised.");
+        System.out.println("[Database]: Database connection pool initialised.");
 
         // Initializing the objects
         commandInstanceList = new Command[1];
@@ -59,11 +57,11 @@ public class DiscordBot extends ListenerAdapter {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void main(String[] args) {
         JDA client = JDABuilder.createLight(
-                    System.getenv("TOKEN"),
-                    GatewayIntent.GUILD_MESSAGES,
-                    GatewayIntent.GUILD_MESSAGE_TYPING,
-                    GatewayIntent.GUILD_MESSAGE_POLLS,
-                    GatewayIntent.GUILD_MESSAGE_REACTIONS
+                        Settings.token,
+                        GatewayIntent.GUILD_MESSAGES,
+                        GatewayIntent.GUILD_MESSAGE_TYPING,
+                        GatewayIntent.GUILD_MESSAGE_POLLS,
+                        GatewayIntent.GUILD_MESSAGE_REACTIONS
                 )
                 .addEventListeners(new DiscordBot())
                 .build();
