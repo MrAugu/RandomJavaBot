@@ -13,12 +13,12 @@ public class HelpCommand extends Command {
     }
 
     @Override
-    public SlashCommandData buildOptions() {
+    public SlashCommandData buildOptions () {
         return Commands.slash(this.name, this.description);
     }
 
     @Override
     public void runSlashInteraction (@NotNull SlashCommandInteractionEvent event, Connection databaseConnection) {
-
+        System.out.println("Reached command file.");
     }
 }
